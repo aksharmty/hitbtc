@@ -11,8 +11,9 @@ include("connect.php");
               <tr align="center" class="title">
                <th width="5%" align="center" bgcolor="#030ffc"><span class="style3">S.No</span></th>
 	   		  <th width="10%" align="center" bgcolor="#030ffc"><span class="style3">ORDER ID</span></th>
-              <th width="25%" align="center" bgcolor="#030ffc"><span class="style3">PRICE </span></th>
-             <th width="25%" align="center" bgcolor="#030ffc"><span class="style3">SELLPRICE</span></th>
+	   		  <th width="10%" align="center" bgcolor="#030ffc"><span class="style3">SYMBOL</span></th>
+              <th width="20%" align="center" bgcolor="#030ffc"><span class="style3">PRICE </span></th>
+             <th width="20%" align="center" bgcolor="#030ffc"><span class="style3">SELLPRICE</span></th>
               <th width="10%" align="center" bgcolor="#030ffc"><span class="style3">QUANTITY</span></th>
               <th width="10%" align="center" bgcolor="#030ffc"><span class="style3">QUANTITY1</span></th>
               <th width="5%" align="center" bgcolor="#030ffc"><span class="style3">QUANTITY2</span></th>
@@ -41,8 +42,9 @@ include("connect.php");
               <tr class="data">
 			  	<td width="5%" align="center"><?php echo $counter;?></td>
                 <td width="10%" align="justify"><?php echo $data['id']; ?></td>
-                <td width="25%" align="justify"><?php echo $data['price']; ?></td>
-                <td width="25%" align="center"><?php echo $data['sellprice']; ?></td>
+                <td width="10%" align="justify"><?php echo $data['symbol']; ?></td>
+                <td width="20%" align="justify"><?php echo $data['price']; ?></td>
+                <td width="20%" align="center"><?php echo $data['sellprice']; ?></td>
                 <td width="10%" align="center"><?php echo $data['quantity']; ?></td>
                 <td width="10%" align="center"><?php echo $data['quantity1']; ?></td>
                 <td width="5%" align="center"><?php echo $data['quantity2']; ?></td>
@@ -103,5 +105,3 @@ include("connect.php");
 </center>
 	</body>
 	</html>
-
-
