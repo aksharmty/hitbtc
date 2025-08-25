@@ -1,3 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Trading Cycle Calculator (JS)</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  label { display: block; margin-top: 10px; }
+  input { padding: 6px; width: 220px; }
+  button { margin-top: 15px; padding: 8px 16px; }
+  .result { margin-top: 20px; padding: 12px; background: #f9f9f9; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+<h2>Trading Cycle Calculator (JavaScript)</h2>
+
+<form id="calcForm">
+  <label>
+    Starting Capital (USDT):
+    <input type="number" id="capital" step="0.00001" value="100">
+  </label>
+
+  <label>
+    Target Capital (USDT):
+    <input type="number" id="targetCap" step="0.01" value="10000">
+  </label>
+
+  <label>
+    Buy Fund % of Capital:
+    <input type="number" id="buyPct" step="0.01" value="2"> %
+  </label>
+
+  <label>
+    Sell Target %:
+    <input type="number" id="sellPct" step="0.01" value="1.5"> %
+  </label>
+
+  <label>
+    Fee % per side (buy/sell):
+    <input type="number" id="feePct" step="0.01" value="0.2"> %
+  </label>
+
+  <button type="button" onclick="calculate()">Calculate</button>
+</form>
+
+<div id="result" class="result" style="display:none;"></div>
+
+<script>
+function gainPerCycle(tradePct, targetPct, feePct) {
+    // Net gain on traded portion after fees
+    let netOnTraded = targetPct - feePct - feePct * (1 + targetPct);
+    return tradePct * netOnTraded;
+}
+
+function cyclesNeeded(start, target, tradePct, targetPct, feePct) {
+    if (start <= 0 || target <= 0 || target <= start) return 0;
+
+    let gain = gainPerCycle(tradePct, targetPct, feePct);
+    let growthFactor = 1 + gain;
+    if (growthFactor <= 1) return Infinity;
+
+    let n = Math.log(target / start) / Math.log(growthFactor);
+    return Math.ceil(n);
+}
+
+function calculate() {
+    let startCap = parseFloat(document.getElementById("capital").value);
+    let targetCap = parseFloat(document.getElementById("targetCap").value);
+    let tradePct = parseFloat(document.getElementById("buyPct").value) / 100;
+    let targetPct = parseFloat(document.getElementById("sellPct").value) / 100;
+    let feePct = parseFloat(document.getElementById("feePct").value) / 100;
+
+    let perCycleGain = gainPerCycle(tradePct, targetPct, feePct);
+    let perCycleGainPct = perCycleGain * 100;
+
+    let resultCycles = cyclesNeeded(startCap, targetCap, tradePct, targetPct, feePct);
+
+    let resDiv = document.getElementById("result");
+    resDiv.style.display = "block";
+    resDiv.innerHTML = `
+      <p><b>Per-cycle Net Gain:</b> ${perCycleGainPct.toFixed(5)} % of total capital</p>
+      <p><b>Result:</b></p>
+      <p>Capital <b>${startCap.toFixed(8)} USDT</b> → 
+         <b>${targetCap.toFixed(2)} USDT</b> needs 
+         <b>${resultCycles.toLocaleString()}</b> cycles.</p>
+    `;
+}
+</script>
+</body>
+</html>
 First buy = 2%<br>
 increament = 1%<br>
 total layer = 42
